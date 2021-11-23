@@ -1,6 +1,13 @@
 # Q & A
 
-## 1、 osx 编译报错
+## 1、说明
+
+-   lua-protobuf-0.3.3 内部所有文件拷贝到 build/lua-protobuf；
+-   xLua-2.1.15f1/build 目录下除了 cmake 与 make开头的所有文件拷贝到build目录下；
+
+
+
+## 2、 osx 编译报错
 
 -   问题：
 
