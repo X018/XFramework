@@ -39,6 +39,39 @@ namespace XLua.LuaDLL
         const string LUADLL = "xlua";
 #endif
 
+        /************************* XFramework - START *************************/
+        // lua 支持 protobuf
+        [DllImport(LUADLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int luaopen_protobuf_c(System.IntPtr L);
+
+        [MonoPInvokeCallback(typeof(LuaDLL.lua_CSFunction))]
+        public static int LoadProtobufC(System.IntPtr L)
+        {
+            return luaopen_protobuf_c(L);
+        }
+
+        [DllImport(LUADLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int luaopen_pb(System.IntPtr L);
+
+        [MonoPInvokeCallback(typeof(LuaDLL.lua_CSFunction))]
+        public static int LoadPb(System.IntPtr L)
+        {
+            return luaopen_pb(L);
+        }
+        /************************** XFramework - END **************************/
+
+        /************************* XFramework - START *************************/
+        // lua 支持 rapidjson
+        [DllImport(LUADLL, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int luaopen_rapidjson(System.IntPtr L);
+
+        [MonoPInvokeCallback(typeof(LuaDLL.lua_CSFunction))]
+        public static int LoadRapidJson(System.IntPtr L)
+        {
+            return luaopen_rapidjson(L);
+        }
+        /************************** XFramework - END **************************/
+
         [DllImport(LUADLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr lua_tothread(IntPtr L, int index);
 
