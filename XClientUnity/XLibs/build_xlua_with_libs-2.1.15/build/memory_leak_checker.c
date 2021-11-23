@@ -25,11 +25,7 @@ static int table_size (Table *h, int fast)
 {
 	if (fast)
 	{
-#if LUA_VERSION_NUM >= 504
-		return (int)sizenode(h) + (int)h->alimit;
-#else
 		return (int)sizenode(h) + (int)h->sizearray;
-#endif
 	}
 	else
 	{
@@ -75,12 +71,8 @@ static void report_table(Table *h, ObjectRelationshipReport cb)
 	{
 		cb(h, h->metatable, 4, NULL, 0, NULL);
 	}
-
-#if LUA_VERSION_NUM >= 504
-    for (i = 0; i < h->alimit; i++)
-#else
-	for (i = 0; i < h->sizearray; i++)
-#endif
+	
+    for (i = 0; i < h->sizearray; i++)
 	{
 		const TValue *item = &h->array[i];
 		if (ttistable(item))
@@ -93,11 +85,7 @@ static void report_table(Table *h, ObjectRelationshipReport cb)
 	{
         if (!ttisnil(gval(n)))
         {
-#if LUA_VERSION_NUM >= 504
-			const TValue* key = (const TValue *)&(n->u.key_val);
-#else
             const TValue *key = gkey(n);
-#endif
 			if (ttistable(key))
 			{
 				cb(h, gcvalue(key), 3, NULL, 0, NULL);
@@ -116,11 +104,7 @@ static void report_table(Table *h, ObjectRelationshipReport cb)
 				else
 				{
 					// ???
-#if LUA_VERSION_NUM >= 504
-					cb(h, gcvalue(value), 1, NULL, novariant(key->tt_), NULL);
-#else
 					cb(h, gcvalue(value), 1, NULL, ttnov(key), NULL);
-#endif
 				}
 			}
 		}
@@ -142,11 +126,7 @@ LUA_API void xlua_report_object_relationship(lua_State *L, ObjectRelationshipRep
 			Table *h = gco2t(p);
 			report_table(h, cb);
 		}
-#if LUA_VERSION_NUM >= 504
-		else if (p->tt == LUA_VLCL)
-#else
 		else if (p->tt == LUA_TLCL)
-#endif
 		{
 			LClosure *cl = gco2lcl(p);
 			lua_lock(L);
